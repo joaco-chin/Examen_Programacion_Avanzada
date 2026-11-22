@@ -1,5 +1,10 @@
 from grafos import Arista, Grafo
 
+# Utilizamos DFS para verificar si una rama es podable o no.
+# De no serlo, quiere decir que al removerla, el grafo
+# dejaria de ser convexo, incumpliendo lo pedido por el 
+# enunciado 
+
 def es_podable_dfs(grafo : Grafo, arista : Arista) -> bool:
     grafo.remover_arista(arista)
     u = arista.nodos[0]
@@ -25,7 +30,13 @@ def es_podable_dfs(grafo : Grafo, arista : Arista) -> bool:
                 
     grafo.insertar_arista(arista)
     return False
-  
+
+# Utilizamos backtracking para calcular que el costo de construir el grafo
+# sea igual al valor solicitada por el ministro. Si el valor es distinto, 
+# vemos si podemos eliminar una o varias aristas (serian maximo 2 por propiedad.
+# De no ser posible, retornamos falso. En caso contrario, retornamos verdadero y
+# una lista de aristas cortadas para llegar al costo (puede estar vacia)
+
 def calcular_costos(aristas : list, costo : int, valor : int, cortadas : list, grafo : Grafo) -> tuple[bool, list]:
     if not aristas and costo == valor:
         return (True, cortadas)
