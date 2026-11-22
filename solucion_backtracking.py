@@ -53,16 +53,20 @@ def calcular_costos(aristas : list, costo : int, valor : int, cortadas : list, g
     nuevo_costo = arista_actual.costo + costo
     
     if nuevo_costo > valor:
-        if not es_podable_dfs(grafo, arista_actual):
+        nuevo_grafo = grafo.copy()
+        if not es_podable_dfs(nuevo_grafo, arista_actual):
             return (False, [])
-        return calcular_costos(nuevas_aristas, costo, valor, cortadas + [arista_actual], grafo)
+        nuevo_grafo.remover_arista(arista_actual) 
+        return calcular_costos(nuevas_aristas, costo, valor, cortadas + [arista_actual], nuevo_grafo)
     
     resultado = calcular_costos(nuevas_aristas, nuevo_costo, valor, cortadas, grafo)
     
     if not resultado[0]:
-        if not es_podable_dfs(grafo, arista_actual):
+        nuevo_grafo = grafo.copy()
+        if not es_podable_dfs(nuevo_grafo, arista_actual):
             return (False, [])
-        return calcular_costos(nuevas_aristas, costo, valor, cortadas + [arista_actual], grafo)
+        nuevo_grafo.remover_arista(arista_actual) 
+        return calcular_costos(nuevas_aristas, costo, valor, cortadas + [arista_actual], nuevo_grafo)
     
     return resultado
 
